@@ -16,7 +16,7 @@
   }
 
   if (loadDashboardButton) {
-    loadDashboardButton.addEventListener("click", loadDashboard);
+    loadDashboardButton.addEventListener("click", loadUser);
   }
 
 async function register(event) {
@@ -51,37 +51,38 @@ async function login (event) {
     const username = document.getElementById('usernameInput').value;
     const password = document.getElementById('passwordInput').value;
 
-  const response = await fetch("http://localhost:3000/login", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    credentials: 'include',
-    body: JSON.stringify({username,password})
-  });
-
-  const text = await response.text();
-
-  if(!response.ok) {
-    alert(text);
-    return;
-  }
-
-  window.location.replace('/dashboard');
-}
-
-async function loadDashboard () {
-    const response = await fetch('http://localhost:3000/dashboard', {
-        method: 'GET',
-        credentials: 'include'
+    const response = await fetch("http://localhost:3000/login", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        credentials: 'include',
+        body: JSON.stringify({username,password})
     });
-
-    if (!response.ok) {
-        window.location.replace('/login.html');
-        return;
-    }
 
     const text = await response.text();
 
-    document.getElementById('result').innerHTML = text;
+    if(!response.ok) {
+        alert(text);
+        return;
+    }
+
+    window.location.replace('/dashboard');
+}
+
+async function loadUser() {
+    const res = await fetch('/api/user', {
+        credentials: 'include'
+    });
+
+    if (!res.ok) {
+        window.location.replace('/login.html');
+        return;
+    }
+    
+    const data = await res.json();
+    const username = data?.username || "User";
+
+    document.getElementById('result').innerText = 
+        `Welcome ${username}`;
 }
 
 async function logout() {

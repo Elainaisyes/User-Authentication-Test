@@ -1,17 +1,50 @@
+// Test User Authentication - Elaina 
+// This is NOT perfect and NOT secure enough, needs HTTPS and further security measures.
+// Need to implement short-lived tokens + refresh tokens.
+
+/* DOWNLOAD THE FOLLOWING DEPENDENCIES IN THE TERMINAL
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.3.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3"
+*/
+
+// Needed to grab the dotenv file where secret key is found
+// Store it in .env for security reasons
+// Make sure .env is included in .gitignore, makes it invisible on the github page.
 require("dotenv").config();
+
+// What we use to run the server.
 const express = require('express');
+
+// Creates & verifies login tokens.
 const jwt = require('jsonwebtoken');
+
+// Used to hash passwords securely.
 const bcrypt = require('bcryptjs');
+
+// Used to read users.json and write in it.
 const fs = require('fs');
+
+// Used for safe file paths.
 const path = require('path');
-const cors = require('cors');
+
+// Adds necessary security headers to help prevent XSS attacks and more.
 const helmet = require('helmet');
+
+// Used to block spam login attempts and registers.
 const rateLimit = require('express-rate-limit');
+
+//Allows us to read cookies (req.cookies).
 const cookieParser = require('cookie-parser');
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
+  windowMs: 15 * 60 * 1000, // 15 Minutes
+  max: 10, // 10 Attempts
   handler: (req, res) => {
     res.status(429).json({ error: 'Too many login attempts. Try later. '})
   }
@@ -28,11 +61,7 @@ app.get('/', (req,res)=>{
   res.sendFile(__dirname + '/public/register.html');
 });
 
-app.get('/test', (req,res)=>{
-  res.send("Server works");
-});
-
-
+// Sets the attempt limiters.
 app.use('/register', limiter);
 app.use('/login', limiter);
 
@@ -44,7 +73,6 @@ if (!importantKey) {
 
 function authenticateToken (req, res, next) {
   const token = req.cookies.token; 
-  console.log("Token:", token);
 
   if (!token) return res.redirect('/login.html');
 
@@ -112,16 +140,15 @@ app.post('/login', async (req, res) => {
 
   res.cookie('token', token, {
     httpOnly: true,
-    secure: false,
+    secure: false, // Should change to true in actual production, this is just a test
     sameSite: 'Strict',
-    maxAge: 60 * 60 * 1000
+    maxAge: 60 * 60 * 1000 // 1 Hour
   });
 
   res.send('Logged in!');
 });
 
 app.post('/logout', (req,res)=>{
-console.log("Cookies before clearing:", req.cookies);
   res.clearCookie('token', {
     httpOnly: true,
     secure: false,
@@ -133,13 +160,11 @@ console.log("Cookies before clearing:", req.cookies);
 });
 
 app.get(['/dashboard','/dashboard/'], authenticateToken, (req,res) => {
-  console.log(req);
   res.sendFile(path.join(__dirname,'private','dashboard.html'));
 });
 
-app.use((req, res, next) => {
-  console.log('Incoming request:', req.method, req.url);
-  next();
+app.get('/api/user', authenticateToken, (req, res) => {
+  res.json({ username: req.user.username });
 });
 
 app.use(express.static('public'));
