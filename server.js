@@ -5,7 +5,6 @@
 /* DOWNLOAD THE FOLLOWING DEPENDENCIES IN THE TERMINAL
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
-    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "express-rate-limit": "^8.3.1",
