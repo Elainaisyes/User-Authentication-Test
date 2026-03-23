@@ -98,6 +98,7 @@ function saveUsers(users) {
   fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
 }
 
+// Upon receiving a post request from register, run the following ->
 app.post('/register', async (req, res) => {
   const { password } = req.body;
   const users = getUsers();

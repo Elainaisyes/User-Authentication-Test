@@ -55,6 +55,7 @@ async function login (event) {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         credentials: 'include',
+        // credentials: include tells the program to include cookies. We use cookies to track access tokens.
         body: JSON.stringify({username,password})
     });
 
