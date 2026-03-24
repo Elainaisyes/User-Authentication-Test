@@ -41,6 +41,7 @@ const rateLimit = require('express-rate-limit');
 //Allows us to read cookies (req.cookies).
 const cookieParser = require('cookie-parser');
 
+// Limites how many attempts can be done (10), and how much time you have.
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 Minutes
   max: 10, // 10 Attempts
@@ -49,43 +50,52 @@ const limiter = rateLimit({
   }
 })
 
+// This Creates your server   RRR
 const app = express();
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(helmet());
+// Middleware Setup: 
+// Middleware = code that runs before routes
+app.use(express.json()); //Allows reading: Without it → body would be empty. RRR
+app.use(cookieParser()); //
+app.use(helmet()); //Adds security headers.
 
 // Sets as the default page
 app.get('/', (req,res)=>{
   res.sendFile(__dirname + '/public/register.html');
 });
 
-// Sets the attempt limiters.
+// Sets the attempt limiters.   
+// This Limits requests to: /register & /login. Not to other routes.   RRR
 app.use('/register', limiter);
 app.use('/login', limiter);
 
+// Secret Key Check: Stops server if secret key missing.  RRR
+// Good security practice.
 const importantKey = process.env.JWT_SECRET;
 if (!importantKey) {
   console.error("JWT_SECRET is missing from .env");
   process.exit(1);
 }
 
+// Token Authentication Function: This protects private routes.  RRR
 function authenticateToken (req, res, next) {
-  const token = req.cookies.token; 
+  const token = req.cookies.token; //1)Get Token: Reads cookie
 
-  if (!token) return res.redirect('/login.html');
+  if (!token) return res.redirect('/login.html'); //2)If No Token: (Not logged in → redirect)
 
-  jwt.verify(token, importantKey, (err, user) => {
-    if (err) return res.redirect('/login.html');
+  jwt.verify(token, importantKey, (err, user) => { //Verify Token 3) Checks if token: Is valid & Was created by your server
+    if (err) return res.redirect('/login.html'); //4)If Invalid: Reject user.
 
     req.user = user;
-    next();
+    next(); //5)If Valid: Stores user info and continues.
   })
 }
 
+// User Storage Functions
+// Get Users
 function getUsers () {
   try {
-    const data = fs.readFileSync('users.json');
+    const data = fs.readFileSync('users.json'); //Reads: users.json
     return JSON.parse(data);
   }
   catch (err){
@@ -93,9 +103,10 @@ function getUsers () {
   }
 }
 
+// Save Users
 function saveUsers(users) {
   fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
-}
+}  //Writes updated users.
 
 // Upon receiving a post request from register, run the following ->
 app.post('/register', async (req, res) => {
