@@ -126,11 +126,11 @@ app.post('/register', async (req, res) => {  // Register Route :|: Runs when use
 
   // Check for Existing Users
   const userExists = users.find(u => u.username === username);  // Check for if the User Exists  
-  //If found: send/said "User already exists"
+  //If found: send/say "User already exists"
   if (userExists) return res.status(400).send("User already exists.");
 
   //Password Length Check
-  if (password.trim().length < 6) return res.status(400).send('Password must be at least 6 characters.')
+  if (password.trim().length < 6) return res.status(400).send('Password must be at least 6 characters.')  //Checks the length of the Password, to make sure that its a minimum of 6 characters
 
   const hashedPassword = await bcrypt.hash(password,10);
   users.push({username, password: hashedPassword});
