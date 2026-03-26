@@ -205,7 +205,7 @@ app.get('/api/user', authenticateToken, (req, res) => {  //Useful for: 1)Showing
   res.json({ username: req.user.username });
 });
 
-//Static Files
+//Serve static files from the 'public' directory, lets us not have to trype in the FULL directory for files in the public folder.
 app.use(express.static('public'));
 
 ///Start Server
