@@ -211,6 +211,7 @@ app.use(express.static('public'));
 ///Start Server
 app.listen(3000,() => {  //Server runs at: http://localhost:3000
   console.log('Server running on port 3000');
-}).on("error", (err) => {
+  //Error Handling
+}).on("error", (err) => {  //If server fails → logs error.
   console.error("Server failed to start:", err);
 });
