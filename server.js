@@ -197,7 +197,7 @@ app.post('/logout', (req,res)=>{   //Clears cookie:
 //Protected Dashboard
 app.get(['/dashboard','/dashboard/'], authenticateToken, (req,res) => {   //This route requires (login): "authenticateToken" Runs first: So No token → redirect Valid token → allow access  RRR
   //Send Dashboard
-  res.sendFile(path.join(__dirname,'private','dashboard.html')); //Only logged-in users see this page.
+  res.sendFile(path.join(__dirname,'frontend/private','dashboard.html')); //Only logged-in users see this page.
 });
 
 //API User Route
@@ -206,7 +206,7 @@ app.get('/api/user', authenticateToken, (req, res) => {  //Useful for: 1)Showing
 });
 
 //Serve static files from the 'public' directory, lets us not have to trype in the FULL directory for files in the public folder.
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'frontend/public')));
 
 ///Start Server
 app.listen(3000,() => {  //Server runs at: http://localhost:3000
