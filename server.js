@@ -55,15 +55,9 @@ const app = express();
 
 // Middleware Setup: 
 // Middleware = code that runs before routes
-<<<<<<< HEAD
 app.use(express.json()); //Allows reading: Without it → body would be empty. RRR
 app.use(cookieParser()); //
 app.use(helmet()); //Adds security headers.
-=======
-app.use(express.json()); //Allows reading: Without it → body would be empty.
-app.use(cookieParser()); // Is used to parse cookies, and set cookies with security options, as well as clearing cookies. 
-app.use(helmet());
->>>>>>> 131ac7d852bed09e57e60671357e1029f21a47ea
 
 // Sets as the default page
 app.get('/', (req,res)=>{
