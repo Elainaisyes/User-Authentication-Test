@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign In</title>
+    <title>Register Sign In</title>
     <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
@@ -25,29 +25,33 @@
                 <div class="signin-content">
                     <div class="signin-header">
                         <p class="system-label">Secure Login</p>
-                        <h1>Sign In</h1>
+                        <h1>~ Sign In ~</h1>
                         <p class="subtitle">Enter your credentials to access the system</p>
                     </div>
 
                     <form id="loginForm" class="signin-form">
                         <div class="input-stack">
                             <div class="input-group">
-                                <input
-                                    type="text"
-                                    id="usernameInput"
-                                    name="username"
-                                    placeholder="Username"
-                                    autocomplete="username"
-                                    required
-                                />
-                            </div>
+                            <label for="usernameInput">Username</label>
+                            <input
+                                type="text"
+                                id="usernameInput"
+                                name="username"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                required
+                            />
+                        </div>
 
-                            <div class="input-group password-group">
+                        <!-- Password input -->
+                        <div class="input-group">
+                            <label for="passwordInput">Password</label>
+                            <div class="password-wrap">
                                 <input
                                     type="password"
                                     id="passwordInput"
                                     name="password"
-                                    placeholder="Password"
+                                    placeholder="Enter your password"
                                     autocomplete="current-password"
                                     required
                                 />

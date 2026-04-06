@@ -1,24 +1,32 @@
 :root {
-    --bg-dark: #021d0d;
-    --bg-mid: #06321a;
-    --bg-light: #0b3f23;
+    /* Backgrounds (deep blue → purple gradient) */
+    --bg-dark: #0a0f2a;
+    --bg-mid: #141a4f;
+    --bg-light: #1f1f6b;
 
-    --text-main: #e8fff1;
-    --text-soft: rgba(208, 255, 223, 0.65);
+    /* Text */
+    --text-main: #f2f4ff;
+    --text-soft: rgba(200, 210, 255, 0.65);
 
-    --green-glow: rgba(34, 255, 146, 0.45);
-    --green-border: rgba(153, 255, 198, 0.2);
-    --green-border-strong: rgba(153, 255, 198, 0.35);
+    /* Glow + Borders (blue/purple neon) */
+    --primary-glow: rgba(90, 140, 255, 0.45);
+    --secondary-glow: rgba(180, 120, 255, 0.35);
 
-    --card-bg: rgba(0, 0, 0, 0.7);
-    --input-bg: rgba(0, 0, 0, 0.6);
+    --border-main: rgba(140, 170, 255, 0.25);
+    --border-strong: rgba(180, 140, 255, 0.4);
 
+    /* Surfaces */
+    --card-bg: rgba(10, 12, 40, 0.75);
+    --input-bg: rgba(15, 18, 50, 0.65);
+
+    /* Radius (unchanged) */
     --radius-xl: 28px;
     --radius-lg: 20px;
     --radius-md: 16px;
 
-    --shadow-main: 0 0 40px rgba(34, 255, 146, 0.12);
-    --shadow-granted: 0 0 80px rgba(34, 255, 146, 0.5);
+    /* Shadows */
+    --shadow-main: 0 0 40px rgba(90, 140, 255, 0.12);
+    --shadow-granted: 0 0 80px rgba(180, 120, 255, 0.5);
 
     --transition: 0.3s ease;
 }
@@ -37,8 +45,8 @@ body {
     font-family: "Segoe UI", Arial, sans-serif;
     color: var(--text-main);
     background:
-        radial-gradient(circle at top left, rgba(34, 255, 146, 0.14), transparent 25%),
-        radial-gradient(circle at bottom right, rgba(34, 255, 146, 0.08), transparent 25%),
+        radial-gradient(circle at top left, rgba(90, 140, 255, 0.14), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(180, 120, 255, 0.08), transparent 25%),
         linear-gradient(135deg, var(--bg-dark), var(--bg-mid) 45%, var(--bg-light));
     overflow: hidden;
 }
@@ -67,8 +75,8 @@ header{
     opacity: 0.2;
     pointer-events: none;
     background-image:
-        linear-gradient(rgba(34, 255, 146, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34, 255, 146, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(90, 140, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 120, 255, 0.08) 1px, transparent 1px);
     background-size: 42px 42px;
 }
 
@@ -99,11 +107,11 @@ header{
     inset: -1px;
     border-radius: var(--radius-xl);
     background: linear-gradient(
-        135deg,
-        rgba(34, 255, 146, 0.5),
-        rgba(34, 255, 146, 0.18),
-        rgba(153, 255, 198, 0.3)
-    );
+    135deg,
+    rgba(90, 140, 255, 0.5),
+    rgba(180, 120, 255, 0.25),
+    rgba(140, 170, 255, 0.35)
+);
     filter: blur(2px);
 }
 
@@ -152,7 +160,7 @@ header{
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.35em;
-    color: rgba(153, 255, 198, 0.8);
+    color: rgba(175, 153, 255, 0.8);
 }
 
 .signin-header h1 {
@@ -181,35 +189,66 @@ header{
 
 .input-group {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.input-group label {
+    font-size: 0.92rem;
+    color: rgba(251, 255, 253, 0.8);
+
 }
 
 .input-group input {
     width: 100%;
     padding: 0.95rem 1rem;
     border-radius: 18px;
-    border: 1px solid rgba(153, 255, 198, 0.2);
+    border: 1px solid rgba(140, 170, 255, 0.25);
+    box-shadow: inset 0 0 18px rgba(90, 140, 255, 0.05);
     background: var(--input-bg);
     color: var(--text-main);
     font-size: 0.95rem;
     outline: none;
-    box-shadow: inset 0 0 18px rgba(34, 255, 146, 0.04);
     transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 
 .input-group input::placeholder {
-    color: rgba(208, 255, 223, 0.35);
+    color: rgba(200, 210, 255, 0.4);
 }
 
 .input-group input:focus {
-    border-color: rgba(153, 255, 198, 0.5);
+    border-color: rgba(180, 140, 255, 0.6);
     box-shadow:
-        inset 0 0 18px rgba(34, 255, 146, 0.08),
-        0 0 0 3px rgba(34, 255, 146, 0.08);
+        inset 0 0 18px rgba(90, 140, 255, 0.1),
+        0 0 0 3px rgba(180, 120, 255, 0.15);
     transform: translateY(-1px);
 }
 
-.password-group input {
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
     padding-right: 5rem;
+}
+
+.view-btn {
+    position: absolute;
+    top: 50%;
+    right: 0.85rem;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: rgba(175, 153, 255, 0.85);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+}
+
+.view-btn:hover {
+    color: whitesmoke;
 }
 
 .toggle-password-btn {
@@ -219,7 +258,7 @@ header{
     transform: translateY(-50%);
     border: none;
     background: transparent;
-    color: rgba(153, 255, 198, 0.85);
+    color: rgba(175, 153, 255, 0.85);
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.2em;
@@ -227,7 +266,7 @@ header{
 }
 
 .toggle-password-btn:hover {
-    color: #d8ffe4;
+    color: whitesmoke;
 }
 
 .signin-options {
@@ -247,18 +286,18 @@ header{
 }
 
 .remember-row input {
-    accent-color: #39ff94;
+    accent-color: #7aa2ff;
 }
 
 .forgot-link,
 .register-copy a {
-    color: rgba(153, 255, 198, 0.9);
+    color: rgba(175, 153, 255, 0.9);
     text-decoration: none;
 }
 
 .forgot-link:hover,
 .register-copy a:hover {
-    color: #d8ffe4;
+    color: whitesmoke;
 }
 
 .signin-btn {
@@ -269,23 +308,21 @@ header{
     border: 1px solid var(--green-border-strong);
     background: linear-gradient(
         135deg,
-        rgba(34, 255, 146, 0.16),
-        rgba(34, 255, 146, 0.28)
+        rgba(90, 140, 255, 0.25),
+        rgba(180, 120, 255, 0.35)
     );
+    box-shadow: 0 0 25px rgba(90, 140, 255, 0.2);
     color: #f3fff7;
     font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.3em;
     cursor: pointer;
-    box-shadow: 0 0 25px rgba(34, 255, 146, 0.14);
     transition: transform var(--transition), box-shadow var(--transition), filter var(--transition), background 0.3s ease;
 }
 
 .signin-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 32px rgba(34, 255, 146, 0.24);
-    filter: brightness(1.06);
+    box-shadow: 0 0 35px rgba(180, 120, 255, 0.35);
 }
 
 .signin-btn:disabled {
@@ -296,8 +333,8 @@ header{
     animation: pulseButton 1s ease-in-out infinite;
     background: linear-gradient(
         135deg,
-        rgba(34, 255, 146, 0.22),
-        rgba(34, 255, 146, 0.34)
+        rgba(175, 153, 255, 0.22),
+        rgba(175, 153, 255, 0.34)
     );
 }
 
@@ -335,12 +372,12 @@ header{
     margin-top: 0.25rem;
     padding: 0.7rem 0.85rem;
     border-radius: 14px;
-    border: 1px solid rgba(153, 255, 198, 0.1);
+    border: 1px solid rgba(180, 140, 255, 0.1);
     background: rgba(0, 0, 0, 0.3);
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: rgba(153, 255, 198, 0.75);
+    color: rgba(175, 153, 255, 0.75);
 }
 
 .terminal-cursor {
@@ -348,7 +385,7 @@ header{
     width: 2px;
     height: 16px;
     margin-left: 6px;
-    background: rgba(153, 255, 198, 0.7);
+    background: rgba(175, 153, 255, 0.7);
     animation: blink 1s steps(1) infinite;
 }
 
